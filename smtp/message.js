@@ -44,7 +44,7 @@ var fix_header_name_case = function(header_name) {
     });
 };
 
-var Message = function(headers)
+var Message = function(headers, contentType)
 {
    this.attachments  = [];
    this.alternative  = null;
@@ -53,7 +53,7 @@ var Message = function(headers)
       "message-id":"<" + now.getTime() + "." + (counter++) + "." + process.pid + "@" + os.hostname() +">",
       "date":moment().locale('en').format("ddd, DD MMM YYYY HH:mm:ss ZZ")
    };
-   this.content      = "text/plain; charset=utf-8";
+   this.content      = contentType;
 
    for(var header in headers)
    {
@@ -612,7 +612,7 @@ MessageStream.prototype.destroySoon = function()
 
 exports.Message = Message;
 exports.BUFFERSIZE = BUFFERSIZE;
-exports.create = function(headers)
+exports.create = function(headers, contentType)
 {
-   return new Message(headers);
+   return new Message(headers, contentType);
 };
